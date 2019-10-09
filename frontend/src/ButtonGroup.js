@@ -1,5 +1,6 @@
 import React from 'react';
 import Loading from './Loading';
+import styles from './Layout.css';
 class ButtonGroup extends React.Component{
     constructor(props){
         super(props);
@@ -9,7 +10,7 @@ class ButtonGroup extends React.Component{
     }
 
     uploadFile(e){
-        this.setState({file_name:e.target.files[0].name});
+        this.setState({file_name:e.target.files[0].name})
         this.reader.readAsDataURL(e.target.files[0]);
         console.log(e.target.files[0].name);
     }
@@ -35,7 +36,7 @@ class ButtonGroup extends React.Component{
             {
                 this.state.loading ? <Loading progress={this.state.loading}/> :
                 <div  className="choose">
-                    <label  for ="img" className="label">Select an attendance sheet.</label>
+                    <label className="label" for ="img">Select an attendance sheet.</label>
                     <br></br><br></br>
                     <input type='file' accept={'image/* video/*'}  onChange={this.uploadFile} id = "img" style={{display:"none"}} />
                     <h4 style={{color : "lightblue"}}>{this.state.file_name}</h4>
