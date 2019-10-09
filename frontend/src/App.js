@@ -4,7 +4,7 @@ import ButtonGroup from './ButtonGroup';
 const App = () => {
     return (
         <div>
-        <ButtonGroup/>
+            <ButtonGroup/>
         </div>
 )
 };
