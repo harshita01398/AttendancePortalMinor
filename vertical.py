@@ -1,10 +1,10 @@
 import cv2
 import numpy as np
-from rectangle import thresh
+from util import slope, thresh
 import math
 
 
-def deletelines(lines):         # Delete Vertical Lines
+def deleteLines(lines):         # Delete Vertical Lines
     n = len(lines)
     idx= 0
     while idx < n:
@@ -32,15 +32,6 @@ def deletelines(lines):         # Delete Vertical Lines
 
     return lines
 
-
-
-def slope(line):        # Find slope
-    if line[0][0] == line[0][2]:
-        return 90
-    return math.degrees(math.atan(abs(line[0][1] - line[0][3])/abs(line[0][0] - line[0][2])))
-
-
-
 def detect(img):            # Detect Vertical Lines
     canny = thresh(img)     # Thresh
 
@@ -62,7 +53,7 @@ def detect(img):            # Detect Vertical Lines
         lines = lines.tolist()
         lines.sort(key= lambda x : x[0][0])
         # print("Initial Lines : ",len(lines))
-        lines = deletelines(lines)          # Delete Clustered Lines
+        lines = deleteLines(lines)          # Delete Clustered Lines
         # print("After deletion : ",len(lines))
 
         for line in lines:
@@ -79,5 +70,5 @@ def detect(img):            # Detect Vertical Lines
         # cv2.imshow("Canny",canny)
         # cv2.waitKey(0)
 
-        vertical_lines = [x[0][0] for x in lines]
-        return vertical_lines
+        verticalLines = [x[0][0] for x in lines]
+        return verticalLines

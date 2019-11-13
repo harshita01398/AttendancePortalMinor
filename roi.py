@@ -4,12 +4,12 @@ import pytesseract
 import vertical
 from keras.models import load_model
 import rectangle
-import Cell_test
+from Cell_test import printedText
 #import Predict
 import pandas as pd
 
-def row_height(lines):          # Find average height of each row
-    avg_distance = 0
+def rowHeight(lines):          # Find average height of each row
+    avgDistance = 0
     count=0
     if lines is None:
         return 0
@@ -18,34 +18,47 @@ def row_height(lines):          # Find average height of each row
             if idx == len(lines)-1:
                 break
 
-            avg_distance +=  max(lines[idx+1][0][1],lines[idx+1][0][3]) - min(line[0][1],line[0][3])
+            avgDistance +=  max(lines[idx+1][0][1],lines[idx+1][0][3]) - min(line[0][1],line[0][3])
             count += 1
 
-        avg_distance /= count
-        return int(avg_distance)
+        avgDistance /= count
+        return int(avgDistance)
 
 
-def create_row(img,horizontal_lines,vertical_lines):        # Create Cells
-    row_size = row_height(horizontal_lines)
-    print("Row Height : " ,row_size)
+def generateOutputFile(result):
+    # print(result)
+    df = pd.DataFrame(result)
+    # print(df)
+    df.to_csv("Output/Output.csv",sep=' ',encoding='utf_8',header=False,index=False,na_rep = '')
+
+    dfNew = pd.read_csv("Output/Output.csv",sep=' ')
+    writer = pd.ExcelWriter("Output/Result.xlsx")
+    dfNew.to_excel(writer,index=False)
+    writer.save()
+    print("Output Generated")
+
+
+def createRow(img,horizontalLines,verticalLines):        # Create Cells
+    rowSize = rowHeight(horizontalLines)
+    print("Row Height : " ,rowSize)
     row,col = img.shape[:-1]
     counter = 0
     model = load_model('Classifier/PA.h5')         # Load Model
     output=[]
     header = [["Roll No","Name "]]
-    max_col_count = 0
+    maxColCount = 0
     TA = []
-    for index,line in enumerate(horizontal_lines) :
-        col_count = 0
-        if index == len(horizontal_lines)-1:
+    for index,line in enumerate(horizontalLines) :
+        colCount = 0
+        if index == len(horizontalLines)-1:
             # roi = img[line[0][1]:row,:,:]
             break
         else:
-            roi = img[min(line[0][1],line[0][3]):max(horizontal_lines[index+1][0][1],horizontal_lines[index+1][0][3]),:,:]      # Create rows
+            roi = img[min(line[0][1],line[0][3]):max(horizontalLines[index+1][0][1],horizontalLines[index+1][0][3]),:,:]      # Create rows
 
-        roi_row,roi_col,_ = roi.shape
-        if roi_row > 10:
-        # if roi_row > row_size :
+        roiRow,roiCol,_ = roi.shape
+        if roiRow > 10:
+        # if roiRow > rowSize :
             # cv2.imshow("ROI",roi)
             # cv2.waitKey(0)
 
@@ -56,54 +69,54 @@ def create_row(img,horizontal_lines,vertical_lines):        # Create Cells
                 cnt = 0
 
 
-                current_attendance = 0
-                for idx,ver_line in enumerate(vertical_lines):
-                    if idx == len(vertical_lines)-1:
+                currentAttendance = 0
+                for idx,verLine in enumerate(verticalLines):
+                    if idx == len(verticalLines)-1:
                         break
                     if cnt == 0:
                         cnt += 1
                         continue
 
-                    cells = roi[:,ver_line:vertical_lines[idx+1]]           # Detect Cells in each row
-                    cv2.imwrite("temp_img.jpg",cells)
+                    cells = roi[:,verLine:verticalLines[idx+1]]           # Detect Cells in each row
+                    cv2.imwrite("tempImg.jpg",cells)
                     # cv2.imshow("Cells",cells)
                     # cv2.waitKey(0)
-                    text = Cell_test.printed_text("temp_img.jpg",model)     # Get text in the cells
+                    text = printedText("tempImg.jpg",model)     # Get text in the cells
                     # print (text,end=' ')
                     if text != "":
-                        col_count += 1
+                        colCount += 1
                         row.append(text)
 
                        
                     if text == '1':
-                        current_attendance += 1
+                        currentAttendance += 1
 
                     # if cv2.waitKey(0) == ord('q'):
                         # sys.exit(0)
 
-                if max_col_count < col_count:
-                    max_col_count = col_count
+                if maxColCount < colCount:
+                    maxColCount = colCount
 
-                TA.append([current_attendance])
+                TA.append([currentAttendance])
 
     # Create Output Files
                 output.append(row)
 
 
-    for i in range(1,max_col_count-1):
+    for i in range(1,maxColCount-1):
         header[0].extend([i])
 
     header[0].extend(["Total Attendance"])
-    print("Total Columns : " ,max_col_count)
+    print("Total Columns : " ,maxColCount)
 
     for i in range(len(TA)):
-        TA[i][0] = str(round(TA[i][0]/(max_col_count-2) * 100,2))
+        TA[i][0] = str(round(TA[i][0]/(maxColCount-2) * 100,2))
         TA[i][0] += "%"
 
     for i in range(len(output)):
-        cur_len = len(output[i])
-        if cur_len != max_col_count:
-            for j in range(max_col_count-cur_len):
+        curLen = len(output[i])
+        if curLen != maxColCount:
+            for j in range(maxColCount-curLen):
                 output[i].append('A')
 
 
@@ -112,17 +125,4 @@ def create_row(img,horizontal_lines,vertical_lines):        # Create Cells
     
 
     header.extend(output)
-
-
-
-
-    # print(header)
-    df = pd.DataFrame(header)
-    # print(df)
-    df.to_csv("Output/Output.csv",sep=' ',encoding='utf_8',header=False,index=False,na_rep = '')
-
-    df_new = pd.read_csv("Output/Output.csv",sep=' ')
-    writer = pd.ExcelWriter("Output/Result.xlsx")
-    df_new.to_excel(writer,index=False)
-    writer.save()
-    print("Output Generated")
+    generateOutputFile(header)

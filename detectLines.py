@@ -1,9 +1,9 @@
 import cv2
 import numpy as np
-import rectangle
+from util import slope, thresh
 import math
 
-def deletelines(lines):         # Delete clustered lines -- Horizontal
+def deleteLines(lines):         # Delete clustered lines -- Horizontal
     n = len(lines)
     idx= 0
     while idx < n:
@@ -30,17 +30,10 @@ def deletelines(lines):         # Delete clustered lines -- Horizontal
         idx += 1
 
     return lines
-
-
-def slope(line):            # Find Slope of line
-    if line[0][0] == line[0][2]:
-        return 90
-    return math.degrees(math.atan(abs(line[0][1] - line[0][3])/abs(line[0][0] - line[0][2])))
-
-
+    
 
 def detect(img):            #Horizontal Lines Detection
-    canny = rectangle.thresh(img)       # Thresh image
+    canny = thresh(img)       # Thresh image
     sobel = cv2.Sobel(canny,cv2.CV_64F,0,1,ksize=5)     # Sobel Filtering
     row,col = sobel.shape
 
@@ -58,7 +51,7 @@ def detect(img):            #Horizontal Lines Detection
         lines = lines.tolist()
         lines.sort(key= lambda x : x[0][1])
         # print(len(lines))
-        lines = deletelines(lines)      # Delete clustered lines
+        lines = deleteLines(lines)      # Delete clustered lines
 
         for line in lines:
 

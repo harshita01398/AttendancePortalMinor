@@ -4,7 +4,7 @@ import pytesseract
 import Predict
 
 
-def printed_text(imging, model):  # Recognise Printed Text
+def printedText(imging, model):  # Recognise Printed Text
 
     img = cv2.imread(imging)
     # print(img.shape)

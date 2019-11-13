@@ -30,13 +30,13 @@ class ButtonGroup extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className='container'>
             {
                 this.state.loading ? <Loading progress={this.state.loading}/> :
         <div>
         <input type='file' accept={'image/*'} onChange={this.uploadFile}/>
         <img src={this.state.file}/>
-        <button> Convert </button>
+        <button disabled={!this.state.file}> Convert </button>
         </div>
     }
     </div>

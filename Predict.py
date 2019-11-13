@@ -13,9 +13,6 @@ import pickle
 def nothing(x):
     pass
 
-
-
-
 def predict(img,model) :
     #gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     # img = cv2.resize(img,(28,28),interpolation=cv2.INTER_AREA)
@@ -45,26 +42,26 @@ def predict(img,model) :
             img = img[y:y+h,x:x+w] 
 
             top , bottom , left , right = 0,0,0,0
-            small_row,small_col = img.shape
+            smallRow,smallCol = img.shape
             
-            if small_row < 28:
-                top = int((28-small_row)/2)
-                bottom = 28 - top - small_row
+            if smallRow < 28:
+                top = int((28-smallRow)/2)
+                bottom = 28 - top - smallRow
 
-            if small_col < 28:
-                left = int((28-small_col)/2)
-                right = 28 - left - small_col
+            if smallCol < 28:
+                left = int((28-smallCol)/2)
+                right = 28 - left - smallCol
 
             img = cv2.copyMakeBorder(img,top,bottom,left,right,cv2.BORDER_CONSTANT,value = [0,0,0])
 
-            if small_row > 28 or small_col > 28:
+            if smallRow > 28 or smallCol > 28:
                 # print(img.shape)
 
-                non_zero_cells = cv2.countNonZero(cv2.dilate(img.copy(),np.ones([5,5]),iterations=1))
-                digit_prob = non_zero_cells /(img.shape[0]*img.shape[1])            # Remove Empty Cells
-                # print("-------------" , digit_prob,end="")
+                nonZeroCells = cv2.countNonZero(cv2.dilate(img.copy(),np.ones([5,5]),iterations=1))
+                digitProb = nonZeroCells /(img.shape[0]*img.shape[1])            # Remove Empty Cells
+                # print("-------------" , digitProb,end="")
 
-                if digit_prob < 0.05:
+                if digitProb < 0.05:
                     # cv2.imshow("Empty",img)
                     # cv2.waitKey(0)
                     return ""       # Cell is empty
@@ -87,12 +84,12 @@ def predict(img,model) :
             weights=model.get_weights()         # Get weights
 
             predicted = model.predict(img,batch_size = 200,verbose = 2,steps = None)            # Predict
-            max_val = -1
+            maxVal = -1
             # print (predicted)
 
             for i in range(2):
-                if (predicted[0][i]>max_val):
-                    max_val=predicted[0][i]
+                if (predicted[0][i]>maxVal):
+                    maxVal=predicted[0][i]
                     ans = i
 
             # print (" ----" , ans)
