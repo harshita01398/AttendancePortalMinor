@@ -1,0 +1,28 @@
+.loading{
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    color:whitesmoke;
+}
+.choose{
+    position: absolute;
+    color:antiquewhite;
+    left: 30%;
+    top: 25%;
+}
+.convert{
+    position: relative;
+    left: 41%;
+    color:white;
+    background:transparent;
+    border: 2px ridge whitesmoke;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.label{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 2px ridge whitesmoke;
+    font-size: 1.5rem;
+    height: auto;
+}

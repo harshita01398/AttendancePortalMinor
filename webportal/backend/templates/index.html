@@ -29,45 +29,27 @@
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                
-                    <!-- <form id="upload-photos" method="post" action="/upload_photos" enctype="multipart/form-data">
+
+                    <form id="upload" method="post"  enctype="multipart/form-data"> 
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="dept-input" style="color: white">Department:</label>
-                                <select name="Department">
-                                    <option value="ece">ECE</option>
-                                    <option value="cs">Computer Engineering</option>
-                                    <option value="civil">Civil</option>
-                                    <option value="mechanical">Mechanical</option>
-                                </select>
+                            <label for="dept" style="color: white">Department:</label>
+                            <input type="search" class="form-control form-control-sm typeahead" name="Dept" placeholder="Department" autocomplete="off" id="DeptIp">
 
-                            <label for="name-input" style="color: white">Name:</label> 
-                            <br>
-                                <input list="name-input" style="color: black">
-                                <datalist id="name-input" name="Name" style="color: black">
-                                    <option value="P6">Gaurav Kumar</option>
-                                    <option value="A6">Neha Arora</option>
-                                    <option value="MDa">Manish Dayal</option>
-                                    <option value="LKB">Lokesh Kumar B</option>
-                                </datalist>
+                            <label for="teacher" style="color: white">Name:</label>
+                            <input type="search" class="form-control form-control-sm typeahead" name="Teacher" placeholder="Name" autocomplete="off" id="TeacherIp" style="color: black">
 
                             <label for="sub-input" style="color: white">Subject:</label>
-                                <input list="sub-input" style="color: black">
-                                <datalist id="sub-input" name="Subject" style="color: black">
-                                    <option value="CHT">Computer Hardware & Troubleshooting</option>
-                                    <option value="OS">Operating Systems</option>
-                                    <option value="DAA">Design & Analysis of Algorithms</option>
-                                    <option value="CN">Computer Networking</option>
-                                </datalist>
-
-                            <label for="photos-input" style="color: white">File input:</label>
-                            <input id="photos-input" type="file" name="photos[]" multiple="multiple" >
-                            <p class="help-block" style="color: white">You can upload only 1 file.</p>
+                            <input type="search" class="form-control form-control-sm typeahead" name="Subject" placeholder="Subject" autocomplete="off" id="SubIp" style="color: black">
+                                
+                            <label for="image" style="color: white">File input:</label>
+                            <input id="imageIp" type="file" name="Image">
+                            <!-- <p class="help-block" style="color: white">You can upload only 1 file.</p> -->
                         </div>
                         <input type="hidden" name="csrf_token" value="just_a_text_field" />
                         <button class="btn btn-default btn-large" id="upBut"><i class="fas fa-upload"></i> Upload Image!</button>
                         
-                    </form> -->
+                    </form>
                     <br/>
                     
                     <div class="col-md-12" id="xlsBut">
@@ -89,12 +71,19 @@
             <div id="album" class="row"></div>
         </div>
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/jquery/2.1.4/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/typeahead.js/0.10/typeahead.jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script type="text/javascript">
         //Django variables
-        var uploadUrl = "{% url 'upload' %}";      
+        var searchDeptUrl = "{% url 'searchDept' %}";
+        var searchSubUrl = "{% url 'searchSub' %}";
+        var searchTeachUrl = "{% url 'searchTeacher' %}";
+        var uploadUrl = "{% url 'upload' %}";   
+        var generateXlsUrl = "{% url 'generateXls' %}";   
+        var downloadUrl = "{% url 'download' %}";
 </script>
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
 </body>

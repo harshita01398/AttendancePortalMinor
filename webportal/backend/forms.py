@@ -1,5 +1,8 @@
 from django import forms
+from .models import Post
 
-class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
-    file = forms.ImageField()
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'cover']
