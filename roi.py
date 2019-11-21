@@ -108,7 +108,7 @@ def createRow(img,horizontalLines,verticalLines):        # Create Cells
 
     header[0].extend(["Total Attendance"])
     print("Total Columns : " ,maxColCount)
-
+    print(output)
     for i in range(len(TA)):
         TA[i][0] = str(round(TA[i][0]/(maxColCount-2) * 100,2))
         TA[i][0] += "%"
