@@ -1,51 +1,51 @@
 console.log("Connected");
-
 $("#convertBut").hide();
+// $('#overlay').show();
 
-$('#DeptIp').typeahead({
-    hint:false,
-    highlight:true,
-    minlength: 1,
-},
-{
-    name: 'dept',
-    source: function (query, process) {
-        return $.get(searchDeptUrl, {query: query}, function(data){
-            var output = $.map(data.names, function(string){ return { value: string};});
-            return process(output);
-        });
-    },
-});
+// $('#DeptIp').typeahead({
+//     hint:false,
+//     highlight:true,
+//     minlength: 1,
+// },
+// {
+//     name: 'dept',
+//     source: function (query, process) {
+//         return $.get(searchDeptUrl, {query: query}, function(data){
+//             var output = $.map(data.names, function(string){ return { value: string};});
+//             return process(output);
+//         });
+//     },
+// });
 
-$('#TeacherIp').typeahead({
-    hint:false,
-    highlight:true,
-    minlength: 1,
-},
-{
-    name: 'teacher',
-    source: function (query, process) {
-        return $.get(searchTeachUrl, {query: query, dept:$('#DeptIp').val()}, function(data){
-            var output = $.map(data.names, function(string){ return { value: string};});
-            return process(output);
-        });
-    },
-});
+// $('#TeacherIp').typeahead({
+//     hint:false,
+//     highlight:true,
+//     minlength: 1,
+// },
+// {
+//     name: 'teacher',
+//     source: function (query, process) {
+//         return $.get(searchTeachUrl, {query: query, dept:$('#DeptIp').val()}, function(data){
+//             var output = $.map(data.names, function(string){ return { value: string};});
+//             return process(output);
+//         });
+//     },
+// });
 
-$('#SubIp').typeahead({
-    hint:false,
-    highlight:true,
-    minlength: 1,
-},
-{
-    name: 'subject',
-    source: function (query, process) {
-        return $.get(searchSubUrl, {query: query, dept:$('#DeptIp').val(), teacher:$('#TeacherIp').val()}, function(data){
-            var output = $.map(data.names, function(string){ return { value: string};});
-            return process(output);
-        });
-    },
-});
+// $('#SubIp').typeahead({
+//     hint:false,
+//     highlight:true,
+//     minlength: 1,
+// },
+// {
+//     name: 'subject',
+//     source: function (query, process) {
+//         return $.get(searchSubUrl, {query: query, dept:$('#DeptIp').val(), teacher:$('#TeacherIp').val()}, function(data){
+//             var output = $.map(data.names, function(string){ return { value: string};});
+//             return process(output);
+//         });
+//     },
+// });
 
 
 
@@ -102,6 +102,7 @@ $('#upload').on('submit', function (event) {
         },
         error: function(){
             alert(status);
+            $('.progress').hide();
         }
     });
 });
@@ -113,14 +114,17 @@ $('#imageIp').on('change', function () {
 
 
 $('#convertBut').on('click', function (event) {
+    $('#overlay').show();
     alert("Your file is being processed!");
     $.ajax({
         url: generateXlsUrl,
         method: 'GET',
         error: function () {
             alert("Error in generating Excel File!!!");
+            $('#overlay').hide();
         },
         success: function(data){ 
+            $('#overlay').hide();
             alert("Excel File Generated!");
             file_download();
             // console.log(data);
