@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse, Http404
 
-from backend.processor.Testing1 import convert
+from backend.processor.Testing import convert
 
 from .models import Record
 

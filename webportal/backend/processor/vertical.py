@@ -1,11 +1,10 @@
-
 import cv2
 import numpy as np
-from backend.processor.rectangle import thresh
 import math
+from backend.processor.util import slope, thresh
 
 
-def deletelines(lines):         # Delete Vertical Lines
+def deleteLines(lines):         # Delete Vertical Lines
     n = len(lines)
     idx= 0
     while idx < n:
@@ -33,16 +32,7 @@ def deletelines(lines):         # Delete Vertical Lines
 
     return lines
 
-
-
-def slope(line):        # Find slope
-    if line[0][0] == line[0][2]:
-        return 90
-    return math.degrees(math.atan(abs(line[0][1] - line[0][3])/abs(line[0][0] - line[0][2])))
-
-
-
-def detect(img):            # Detect Vertical Lines
+def detectVertical(img):            # Detect Vertical Lines
     canny = thresh(img)     # Thresh
 
     sobel = cv2.Sobel(canny,cv2.CV_64F,1,0,ksize=5)     # Apply Sobel filter -- Y
@@ -63,21 +53,22 @@ def detect(img):            # Detect Vertical Lines
         lines = lines.tolist()
         lines.sort(key= lambda x : x[0][0])
         # print("Initial Lines : ",len(lines))
-        lines = deletelines(lines)          # Delete Clustered Lines
+        lines = deleteLines(lines)          # Delete Clustered Lines
         # print("After deletion : ",len(lines))
 
         for line in lines:
-            cv2.line(img,(line[0][0],line[0][1]),(line[0][2],line[0][3]),(0,255,0),2)
+            # cv2.line(img,(line[0][0],line[0][1]),(line[0][2],line[0][3]),(0,255,0),2)
 
             if line[0][0] == line[0][2]:
                 theta = 90
             else :
                 theta = slope(line)
 
+
         # cv2.imshow("Output",img)
         # cv2.imshow("Sobel",sobel)
         # cv2.imshow("Canny",canny)
         # cv2.waitKey(0)
 
-        vertical_lines = [x[0][0] for x in lines]
-        return vertical_lines
+        verticalLines = [x[0][0] for x in lines]
+        return verticalLines
