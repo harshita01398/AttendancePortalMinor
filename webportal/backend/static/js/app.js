@@ -1,52 +1,5 @@
 console.log("Connected");
 $("#convertBut").hide();
-// $('#overlay').show();
-
-// $('#DeptIp').typeahead({
-//     hint:false,
-//     highlight:true,
-//     minlength: 1,
-// },
-// {
-//     name: 'dept',
-//     source: function (query, process) {
-//         return $.get(searchDeptUrl, {query: query}, function(data){
-//             var output = $.map(data.names, function(string){ return { value: string};});
-//             return process(output);
-//         });
-//     },
-// });
-
-// $('#TeacherIp').typeahead({
-//     hint:false,
-//     highlight:true,
-//     minlength: 1,
-// },
-// {
-//     name: 'teacher',
-//     source: function (query, process) {
-//         return $.get(searchTeachUrl, {query: query, dept:$('#DeptIp').val()}, function(data){
-//             var output = $.map(data.names, function(string){ return { value: string};});
-//             return process(output);
-//         });
-//     },
-// });
-
-// $('#SubIp').typeahead({
-//     hint:false,
-//     highlight:true,
-//     minlength: 1,
-// },
-// {
-//     name: 'subject',
-//     source: function (query, process) {
-//         return $.get(searchSubUrl, {query: query, dept:$('#DeptIp').val(), teacher:$('#TeacherIp').val()}, function(data){
-//             var output = $.map(data.names, function(string){ return { value: string};});
-//             return process(output);
-//         });
-//     },
-// });
-
 
 
 //Validating Cross Origin Post Requests in Django
@@ -65,11 +18,6 @@ $('#upload').on('submit', function (event) {
     event.preventDefault();
     var formData = new FormData(this);
     
-    // console.log(formData.get("Image"));
-    // console.log(formData.get("Dept"));
-    // console.log(formData.get("Teacher"));
-    // console.log(formData.get("Subject"));
-
     $.ajax({
         url: uploadUrl,
         method: 'POST',
@@ -134,13 +82,6 @@ $('#convertBut').on('click', function (event) {
 });
 
 
-
-
-// function handleSuccess(data) {
-//     $("#convertBut").show();
-//     $('#upBut').hide();
-//     $('.progress').hide();
-// }
 
 
 function file_download()
