@@ -21,7 +21,7 @@ def printedText(imging, model):  # Recognise Printed Text
 
     copy = img.copy()
     canny = cv2.Canny(copy, 100, 200)
-    _, c, h = cv2.findContours(cv2.dilate(canny.copy(), (7, 7), iterations=1), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    c, h = cv2.findContours(cv2.dilate(canny.copy(), (7, 7), iterations=1), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     if len(c) <= 0:
         return ""
 

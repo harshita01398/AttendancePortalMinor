@@ -19,7 +19,7 @@ def predict(img,model) :
     # img = cv2.GaussianBlur(img,(5,5),True)
     global ans
     img = cv2.Canny(img,100,200)
-    dilate = cv2.dilate(img,(7,7),iterations = 1)
+    dilate = cv2.dilate(img,(7,7),iterations = 1)       # TODO: Check for change
 
 
     mask = np.zeros([img.shape[0]-8,img.shape[1]-8],dtype=np.uint8)
@@ -33,7 +33,7 @@ def predict(img,model) :
     # cv2.waitKey(0)
     
 
-    _, c, h = cv2.findContours(cv2.dilate(img.copy(),(7,7),iterations=1), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    c, h = cv2.findContours(cv2.dilate(img.copy(),(7,7),iterations=1), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     if len(c) > 0:
         cMax = max(c, key = cv2.contourArea)
         # print(cv2.contourArea(cMax),end = " ")
@@ -41,7 +41,7 @@ def predict(img,model) :
             x,y,w,h = cv2.boundingRect(cMax)        # Find the Bounding Rectangle
             img = img[y:y+h,x:x+w] 
 
-            top , bottom , left , right = 0,0,0,0
+            top , bottom , left , right = 0,0,0,0       # TODO: Check for bigger boundary
             smallRow,smallCol = img.shape
             
             if smallRow < 28:
@@ -53,6 +53,7 @@ def predict(img,model) :
                 right = 28 - left - smallCol
 
             img = cv2.copyMakeBorder(img,top,bottom,left,right,cv2.BORDER_CONSTANT,value = [0,0,0])
+            imgShow = img.copy()
 
             if smallRow > 28 or smallCol > 28:
                 # print(img.shape)
@@ -73,9 +74,6 @@ def predict(img,model) :
 
             # print("After")
             # cv2.imshow("Mask",mask)
-            # cv2.imshow("Empty2",img)
-            # cv2.waitKey(0)
-
             img=img.reshape(1,1, 28, 28).astype('float32')      # Cell is not empty
             #img = img.reshape(1,28*28).astype('float32')
             img = img/255
@@ -85,14 +83,16 @@ def predict(img,model) :
 
             predicted = model.predict(img,batch_size = 200,verbose = 2,steps = None)            # Predict
             maxVal = -1
-            # print (predicted)
+
 
             for i in range(2):
                 if (predicted[0][i]>maxVal):
                     maxVal=predicted[0][i]
                     ans = i
 
-            # print (" ----" , ans)
+            print (ans)
+            cv2.imshow("Empty2",imgShow)
+            cv2.waitKey(0)
             return str(ans)
 
         else:

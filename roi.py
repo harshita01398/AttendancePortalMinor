@@ -117,7 +117,7 @@ def createRow(img,horizontalLines,verticalLines):        # Create Cells
         curLen = len(output[i])
         if curLen != maxColCount:
             for j in range(maxColCount-curLen):
-                output[i].append('A')
+                output[i].append('0')
 
 
     for i in range(len(output)):

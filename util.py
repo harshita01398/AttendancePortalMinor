@@ -1,5 +1,6 @@
 ## This file contains generic methods that may be used by multiple modules in future 
-
+import cv2
+import math
 
 def resize(inImg):
 	# Resize image to appt size
@@ -31,4 +32,4 @@ def thresh(inImg):
 	return thresh
 
 def distance(pt1,pt2):	# Find distance between 2 points
-	return sqrt((pt1[0]-pt2[0])**2 + (pt1[1] - pt2[1])**2 )
+	return math.sqrt((pt1[0]-pt2[0])**2 + (pt1[1] - pt2[1])**2 )

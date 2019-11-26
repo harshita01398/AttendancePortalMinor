@@ -28,8 +28,8 @@ try:
     #cv2.imshow("Rectangle",rectImg)
     #cv2.imshow("Original",img)
 
-except AttributeError:
-    print("Enter valid Image name")
+except AttributeError as e:
+    print("Enter valid Image name", e)
 
 #cv2.waitKey(0)
 cv2.destroyAllWindows()
