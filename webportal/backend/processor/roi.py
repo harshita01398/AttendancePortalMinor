@@ -44,7 +44,7 @@ def createRow(img,horizontalLines,verticalLines):        # Create Cells
     print("Row Height : " ,rowSize)
     row,col = img.shape[:-1]
     counter = 0
-    model = load_model('./backend/processor/Classifier/PA.h5')         # Load Model
+    model = load_model('./backend/processor/Classifier/PANew.h5')         # Load Model
     output=[]
     header = [["Roll No","Name "]]
     maxColCount = 0

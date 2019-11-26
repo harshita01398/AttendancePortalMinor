@@ -27,7 +27,7 @@ def printedText(imging, model):  # Recognise Printed Text
 
     # img = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,9,2)
     # img = cv2.erode(img,np.ones([3,3]),iterations= 1)
-
+    # pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
     printed = pytesseract.image_to_string(img)
 
     if len(printed) == 0:
