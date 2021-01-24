@@ -1,0 +1,29 @@
+1) Install python 3.5
+Add to environment variables - Python35 & Python35/Scripts
+2) Install tesseract-ocr
+3) Open cmd in AttendancePortalMinor folder, execute command virtual
+4) Execute command portal
+5) Open http://127.0.0.1:8000/backend/ in browser
+
+
+virtual.bat file contains following commands:
+
+pip install virtualenv
+virtualenv venv
+venv\Scripts\activate
+
+portal.bat file contains following commands:
+pip install -r requirements.txt
+cd webportal
+python manage.py runserver
+
+
+If tesseract error, then uncomment below line - Line 30 in webportal\backend\processor\Cell_test.py module.
+pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+
+
+If module import error, such as for tensorflow:
+pip install --upgrade --force-reinstall <package>
+eg: pip install --upgrade --force-reinstall tensorflow==1.14.0 
+
+
